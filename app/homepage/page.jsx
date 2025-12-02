@@ -182,9 +182,12 @@ export default function HomePage() {
                   {book.category}
                 </span>
 
-                <button className="mt-4 w-full bg-emerald-700 text-white py-2 rounded-lg hover:bg-emerald-800 transition">
-                  Pinjam Buku
-                </button>
+                <button
+  onClick={() => route.push(`/pinjambuku?title=${book.title}&author=${book.author}&category=${book.category}&img=${book.img}`)}
+  className="mt-4 w-full bg-emerald-700 text-white py-2 rounded-lg hover:bg-emerald-800 transition"
+>
+  Pinjam Buku
+</button>
               </div>
             </div>
           ))}
