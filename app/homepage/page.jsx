@@ -96,7 +96,6 @@ export default function HomePage() {
           </div>
         )}
       </section>
-
     </div>
   );
 }
