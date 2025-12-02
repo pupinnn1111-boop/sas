@@ -82,17 +82,6 @@ export default function RiwayatPeminjaman() {
         </button>
 
         <button
-          onClick={() => route.push("/admin")}
-          className={`text-left px-3 py-2 rounded-lg font-medium transition ${
-            activePage === "admin"
-              ? "bg-emerald-600 text-white"
-              : "hover:bg-emerald-100"
-          }`}
-        >
-          Persetujuan
-        </button>
-
-        <button
           onClick={() => route.push("/profil")}
           className={`text-left px-3 py-2 rounded-lg font-medium transition ${
             activePage === "profil"

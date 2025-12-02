@@ -150,7 +150,6 @@ export default function HomePage() {
             <button onClick={() => route.push("/homepage")} className="hover:text-emerald-200 transition">Home</button>
             <button onClick={() => route.push("/koleksibuku")} className="hover:text-emerald-200 transition">Koleksi Buku</button>
             <button onClick={() => route.push("/riwayatpeminjaman")} className="hover:text-emerald-200 transition">Riwayat Peminjaman</button>
-            <button onClick={() => route.push("/admin")} className="hover:text-emerald-200 transition">Persetujuan</button>
             <button onClick={() => route.push("/profil")} className="hover:text-emerald-200 transition">Profil</button>
           </nav>
 
