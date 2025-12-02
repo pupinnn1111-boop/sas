@@ -1,23 +1,15 @@
-import { db } from "@/lib/db";
-import { checkAuth } from "@/lib/checkAuth";
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db"; 
 
 export async function GET() {
-  const [rows] = await db.query("SELECT * FROM books");
-  return Response.json(rows);
-}
-
-
-export async function POST(req) {
-    const user = checkAuth(req);
-    if (!user || user.role !== "admin")
-      return Response.json({ error: "Unauthorized" }, { status: 403 });
-  
-    const { title, author, stock } = await req.json();
-  
-    await db.query(
-      "INSERT INTO books (title, author, stock) VALUES (?, ?, ?)",
-      [title, author, stock]
+  try {
+    const [rows] = await db.execute(
+      "SELECT id, title, author, category, img, stock FROM books"
     );
-  
-    return Response.json({ message: "Buku ditambahkan" });
+
+    return NextResponse.json(rows);
+  } catch (err) {
+    console.error("ERROR FETCHING BOOKS:", err);
+    return NextResponse.json({ error: "Server Error" }, { status: 500 });
   }
+}
