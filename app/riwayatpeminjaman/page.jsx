@@ -1,35 +1,31 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RiwayatPeminjaman() {
   const route = useRouter();
   const [activePage, setActivePage] = useState("riwayat");
 
-  const history = [
-    {
-      title: "Belajar UI/UX",
-      author: "Adit Prakoso",
-      dateBorrowed: "12 Nov 2024",
-      dateReturn: "19 Nov 2024",
-      status: "Dikembalikan",
-    },
-    {
-      title: "Algoritma Pemrograman",
-      author: "Sari Mutiara",
-      dateBorrowed: "20 Nov 2024",
-      dateReturn: "Belum dikembalikan",
-      status: "Dipinjam",
-    },
-    {
-      title: "Dasar Jaringan",
-      author: "Rizky Purnama",
-      dateBorrowed: "10 Okt 2024",
-      dateReturn: "20 Okt 2024",
-      status: "Dikembalikan",
-    },
-  ];
+  // Data riwayat dari database
+  const [history, setHistory] = useState([]);
 
+  // GET RIWAYAT DARI API
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch("/api/borrows");
+        const data = await res.json();
+        setHistory(data);
+      } catch (err) {
+        console.error("Error fetching history:", err);
+      }
+    };
+
+    fetchHistory();
+  }, []);
+
+  // Warna status
   const statusColor = (status) => {
     switch (status) {
       case "Dikembalikan":
@@ -44,7 +40,7 @@ export default function RiwayatPeminjaman() {
   return (
     <div className="flex min-h-screen bg-gray-100">
 
-      {/* ========== SIDEBAR KIRI ========== */}
+      {/* ========== SIDEBAR ========== */}
       <div className="w-60 bg-white shadow-xl border-r p-6 flex flex-col gap-4 fixed left-0 top-0 h-full">
         <h2 className="text-xl font-bold text-emerald-700 mb-3">Perpustakaan</h2>
 
@@ -99,38 +95,46 @@ export default function RiwayatPeminjaman() {
           Riwayat Peminjaman
         </h2>
 
-        <div className="space-y-4">
-          {history.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white p-4 rounded-xl shadow flex justify-between items-center border"
-            >
-              <div>
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="text-sm text-gray-600 mb-1">
-                  Penulis: {item.author}
-                </p>
-
-                <p className="text-sm text-gray-600">
-                  Dipinjam:{" "}
-                  <span className="font-semibold">{item.dateBorrowed}</span>
-                </p>
-                <p className="text-sm text-gray-600">
-                  Dikembalikan:{" "}
-                  <span className="font-semibold">{item.dateReturn}</span>
-                </p>
-              </div>
-
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColor(
-                  item.status
-                )}`}
+        {history.length === 0 ? (
+          <p className="text-gray-600">Belum ada riwayat peminjaman.</p>
+        ) : (
+          <div className="space-y-4">
+            {history.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white p-4 rounded-xl shadow flex justify-between items-center border"
               >
-                {item.status}
-              </span>
-            </div>
-          ))}
-        </div>
+                <div>
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+
+                  <p className="text-sm text-gray-600 mb-1">
+                    Penulis: {item.author}
+                  </p>
+
+                  <p className="text-sm text-gray-600">
+                    Dipinjam:{" "}
+                    <span className="font-semibold">{item.dateBorrowed}</span>
+                  </p>
+
+                  <p className="text-sm text-gray-600">
+                    Dikembalikan:{" "}
+                    <span className="font-semibold">
+                      {item.dateReturn || "Belum dikembalikan"}
+                    </span>
+                  </p>
+                </div>
+
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColor(
+                    item.status
+                  )}`}
+                >
+                  {item.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
     </div>

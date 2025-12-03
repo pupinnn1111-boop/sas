@@ -1,32 +1,47 @@
-import { db } from "@/lib/db";
-import { checkAuth } from "@/lib/checkAuth";
+import { NextResponse } from "next/server";
 
-export async function POST(req) {
-  const user = checkAuth(req);
-  if (!user) return Response.json({ error: "Unauthorized" }, { status: 403 });
+let borrows = [
+  {
+    id: 1,
+    title: "Belajar UI/UX",
+    author: "Adit Prakoso",
+    dateBorrowed: "2024-11-12",
+    dateReturn: "2024-11-19",
+    status: "Dikembalikan",
+  },
+  {
+    id: 2,
+    title: "Algoritma Pemrograman",
+    author: "Sari Mutiara",
+    dateBorrowed: "2024-11-20",
+    dateReturn: "",
+    status: "Dipinjam",
+  },
+];
 
-  const { bookId } = await req.json();
-
-  await db.query(
-    "INSERT INTO borrows (user_id, book_id) VALUES (?, ?)",
-    [user.id, bookId]
-  );
-
-  return Response.json({ message: "Berhasil meminjam buku" });
+export async function GET() {
+  return NextResponse.json(borrows);
 }
 
-export async function GET(req) {
-    const user = checkAuth(req);
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 403 });
-  
-    const [rows] = await db.query(
-      `SELECT borrows.*, books.title 
-       FROM borrows 
-       JOIN books ON books.id = borrows.book_id
-       WHERE user_id = ?`,
-      [user.id]
+export async function POST(request) {
+  try {
+    const data = await request.json();
+
+    const newBorrow = {
+      id: Date.now(),
+      ...data,
+    };
+
+    borrows.push(newBorrow);
+
+    return NextResponse.json({
+      message: "Peminjaman berhasil ditambahkan",
+      data: newBorrow,
+    });
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Gagal memproses data" },
+      { status: 400 }
     );
-  
-    return Response.json(rows);
   }
-  
+}

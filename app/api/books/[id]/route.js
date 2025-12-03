@@ -1,28 +1,14 @@
 import { db } from "@/lib/db";
-import { checkAuth } from "@/lib/checkAuth";
+import { NextResponse } from "next/server";
 
-export async function PUT(req, { params }) {
-  const user = checkAuth(req);
-  if (!user || user.role !== "admin")
-    return Response.json({ error: "Unauthorized" }, { status: 403 });
+export async function GET(req, { params }) {
+  const { id } = params;
 
-  const { title, author, stock } = await req.json();
+  const [rows] = await db.query("SELECT * FROM books WHERE id = ?", [id]);
 
-  await db.query(
-    "UPDATE books SET title=?, author=?, stock=? WHERE id=?",
-    [title, author, stock, params.id]
-  );
-
-  return Response.json({ message: "Buku diperbarui" });
-}
-
-export async function DELETE(req, { params }) {
-    const user = checkAuth(req);
-    if (!user || user.role !== "admin")
-      return Response.json({ error: "Unauthorized" }, { status: 403 });
-  
-    await db.query("DELETE FROM books WHERE id=?", [params.id]);
-  
-    return Response.json({ message: "Buku dihapus" });
+  if (rows.length === 0) {
+    return NextResponse.json({ message: "Buku tidak ditemukan" }, { status: 404 });
   }
-  
+
+  return NextResponse.json(rows[0], { status: 200 });
+}
