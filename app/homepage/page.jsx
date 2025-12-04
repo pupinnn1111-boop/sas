@@ -169,7 +169,7 @@ export default function HomePage() {
                   </span>
 
                   <button
-                    onClick={() => navigate(`/pinjambuku/${book.id}`)}
+                    onClick={() => router.push(`/pinjambuku/${book.id}`)}
                     className="w-full bg-linear-to-r from-emerald-600 to-green-700 text-white py-3 rounded-xl hover:shadow-lg hover:scale-105 active:scale-95 transition-all font-semibold"
                   >
                     Pinjam Buku

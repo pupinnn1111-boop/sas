@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function KoleksiBuku() {
-  const route = useRouter();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Semua");
   const [activePage, setActivePage] = useState("koleksi");
@@ -171,90 +169,205 @@ export default function KoleksiBuku() {
     return byTitle && byCategory;
   });
 
+  // Mock navigation function
+  const navigate = (path) => {
+    console.log("Navigate to:", path);
+    const pageMap = {
+      "/homepage": "home",
+      "/koleksibuku": "koleksi",
+      "/riwayatpeminjaman": "riwayat",
+      "/profil": "profil"
+    };
+    setActivePage(pageMap[path]);
+  };
+
+  const menuItems = [
+    {
+      id: "home",
+      label: "Home",
+      path: "/homepage",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )
+    },
+    {
+      id: "koleksi",
+      label: "Koleksi Buku",
+      path: "/koleksibuku",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      )
+    },
+    {
+      id: "riwayat",
+      label: "Riwayat Peminjaman",
+      path: "/riwayatpeminjaman",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    },
+    {
+      id: "profil",
+      label: "Profil",
+      path: "/profil",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      )
+    }
+  ];
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-linear-to-br from-emerald-50 via-white to-green-50">
 
       {/* SIDEBAR */}
-      <div className="w-60 bg-white shadow-xl border-r p-6 flex flex-col gap-4 fixed left-0 top-0 h-full">
-        <h2 className="text-xl font-bold text-emerald-700 mb-3">Perpustakaan</h2>
+      <div className="w-64 bg-white shadow-xl border-r border-gray-200 p-6 flex flex-col gap-2 fixed left-0 top-0 h-full">
+        
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
+          <div className="w-10 h-10 bg-linear-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-md">
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-800">Perpustakaan</h2>
+            <p className="text-xs text-gray-500">Digital Library</p>
+          </div>
+        </div>
 
-        <button
-          onClick={() => route.push("/homepage")}
-          className={`text-left px-3 py-2 rounded-lg font-medium transition ${activePage === "home" ? "bg-emerald-600 text-white" : "hover:bg-emerald-100"}`}
-        >
-          Home
-        </button>
-
-        <button
-          onClick={() => route.push("/koleksibuku")}
-          className={`text-left px-3 py-2 rounded-lg font-medium transition ${activePage === "koleksi" ? "bg-emerald-600 text-white" : "hover:bg-emerald-100"}`}
-        >
-          Koleksi Buku
-        </button>
-
-        <button
-          onClick={() => route.push("/riwayatpeminjaman")}
-          className={`text-left px-3 py-2 rounded-lg font-medium transition ${activePage === "riwayat" ? "bg-emerald-600 text-white" : "hover:bg-emerald-100"}`}
-        >
-          Riwayat Peminjaman
-        </button>
-
-        <button
-          onClick={() => route.push("/profil")}
-          className={`text-left px-3 py-2 rounded-lg font-medium transition ${activePage === "profil" ? "bg-emerald-600 text-white" : "hover:bg-emerald-100"}`}
-        >
-          Profil
-        </button>
+        {/* Menu Items */}
+        <nav className="space-y-1">
+          {menuItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => navigate(item.path)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                activePage === item.id
+                  ? "bg-linear-to-r from-emerald-600 to-green-700 text-white shadow-lg"
+                  : "text-gray-700 hover:bg-emerald-50"
+              }`}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
       </div>
 
       {/* CONTENT */}
-      <div className="flex-1 p-6 ml-60">
+      <div className="flex-1 p-8 ml-64">
 
-        <h1 className="text-3xl font-bold text-emerald-700 mb-6">Koleksi Buku</h1>
-
-        {/* Search & Filter */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-          <input
-            type="text"
-            placeholder="Cari judul buku..."
-            className="px-4 py-2 w-full md:w-80 rounded-lg bg-white shadow border focus:outline-none"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-white shadow border focus:outline-none"
-          >
-            <option value="Semua">Semua</option>
-            <option value="Pemrograman">Pemrograman</option>
-            <option value="Novel">Novel</option>
-            <option value="Teknologi">Teknologi</option>
-            <option value="Design">Design</option>
-            <option value="Motivasi">Motivasi</option>
-            <option value="Ekonomi">Ekonomi</option>
-            <option value="Sains">Sains</option>
-          </select>
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-linear-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-800">Koleksi Buku</h1>
+          </div>
+          <p className="text-gray-600 ml-13">Jelajahi ribuan koleksi buku berkualitas</p>
         </div>
 
-        {/* Book List */}
-        {filteredBooks.length === 0 ? (
-          <p className="text-center text-gray-600 mt-10">
-            Buku tidak ditemukan...
+        {/* Search & Filter */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+          
+          {/* Search */}
+          <div className="relative w-full md:w-96">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Cari judul buku..."
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white shadow-sm border-2 border-gray-200 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          {/* Filter */}
+          <div className="relative">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="pl-12 pr-8 py-3 rounded-xl bg-white shadow-sm border-2 border-gray-200 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all appearance-none cursor-pointer"
+            >
+              <option value="Semua">Semua Kategori</option>
+              <option value="Pemrograman">Pemrograman</option>
+              <option value="Novel">Novel</option>
+              <option value="Teknologi">Teknologi</option>
+              <option value="Design">Design</option>
+              <option value="Motivasi">Motivasi</option>
+              <option value="Ekonomi">Ekonomi</option>
+              <option value="Sains">Sains</option>
+              <option value="Bisnis">Bisnis</option>
+            </select>
+            <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="mb-6">
+          <p className="text-sm text-gray-600">
+            Menampilkan <span className="font-semibold text-emerald-600">{filteredBooks.length}</span> buku
+            {category !== "Semua" && <span> dari kategori <span className="font-semibold">{category}</span></span>}
           </p>
+        </div>
+
+        {/* Book Grid */}
+        {filteredBooks.length === 0 ? (
+          <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-12 text-center">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Buku Tidak Ditemukan</h3>
+            <p className="text-gray-600">Coba kata kunci atau kategori yang berbeda</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredBooks.map((book, index) => (
-              <div key={index} className="bg-white rounded-xl shadow hover:shadow-xl transition overflow-hidden">
-                <img src={book.img} alt={book.title} className="h-48 w-full object-cover" />
+              <div 
+                key={index} 
+                className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+              >
+                {/* Image */}
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={book.img} 
+                    alt={book.title} 
+                    className="h-56 w-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  
+                  {/* Category Badge */}
+                  <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    {book.category}
+                  </span>
+                </div>
 
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-emerald-700">{book.title}</h3>
-                  <p className="text-gray-600 text-sm">{book.author}</p>
-                  <p className="text-xs text-emerald-600 mt-1">{book.category}</p>
+                {/* Content */}
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-1">{book.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4">oleh {book.author}</p>
 
-                  <button className="mt-4 w-full py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                  <button className="w-full py-2.5 bg-linear-to-r from-emerald-600 to-green-700 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
                     Detail Buku
                   </button>
                 </div>
