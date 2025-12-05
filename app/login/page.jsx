@@ -40,7 +40,6 @@ export default function LoginForm() {
 
     setLoading(true);
 
-    // 🔥 Kirim ke API Login
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,9 +56,8 @@ export default function LoginForm() {
 
     setSubmitted(true);
 
-    // 1 detik lalu masuk homepage
     setTimeout(() => {
-      console.log("Redirect to homepage");
+      window.location.href = "/homepage"; // 🔥 Redirect ke homepage
     }, 1000);
   }
 
@@ -98,7 +96,9 @@ export default function LoginForm() {
               <p className="text-sm text-gray-500 mt-4">Mengarahkan ke homepage...</p>
             </div>
           ) : (
-            <div className="space-y-5">
+            
+            /* 🔥 FORM DIBUNGKUS DI SINI */
+            <form className="space-y-5" onSubmit={handleSubmit}>
               
               {/* Server Error */}
               {errors.server && (
@@ -214,10 +214,9 @@ export default function LoginForm() {
                 </a>
               </div>
 
-              {/* Submit Button */}
+              {/* 🔥 BUTTON SUBMIT SUDAH FIX */}
               <button
-                onClick={handleSubmit}
-                type="button"
+                type="submit"
                 className="w-full py-3.5 rounded-xl bg-linear-to-r from-emerald-600 to-green-700 hover:from-emerald-700 hover:to-green-800 transition-all font-semibold text-white shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={loading}
               >
@@ -243,7 +242,7 @@ export default function LoginForm() {
                 kami
               </p>
 
-            </div>
+            </form>
           )}
 
         </div>
