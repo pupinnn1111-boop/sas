@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RiwayatPeminjaman() {
+  const router = useRouter();
   const [activePage, setActivePage] = useState("riwayat");
 
   // Data riwayat dari database
@@ -23,19 +25,20 @@ export default function RiwayatPeminjaman() {
     fetchHistory();
   }, []);
 
-  // Mock navigation function
-  const navigate = (path) => {
-    console.log("Navigate to:", path);
+  // NAVIGASI PAKAI useRouter()
+  const navigate = (path, id) => {
+    router.push(path);
+
     const pageMap = {
       "/homepage": "home",
       "/koleksibuku": "koleksi",
       "/riwayatpeminjaman": "riwayat",
-      "/profil": "profil"
+      "/profil": "profil",
     };
+
     setActivePage(pageMap[path]);
   };
 
-  // Warna status
   const statusColor = (status) => {
     switch (status) {
       case "Dikembalikan":
@@ -56,7 +59,7 @@ export default function RiwayatPeminjaman() {
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
-      )
+      ),
     },
     {
       id: "koleksi",
@@ -66,7 +69,7 @@ export default function RiwayatPeminjaman() {
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
-      )
+      ),
     },
     {
       id: "riwayat",
@@ -76,7 +79,7 @@ export default function RiwayatPeminjaman() {
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-      )
+      ),
     },
     {
       id: "profil",
@@ -86,8 +89,8 @@ export default function RiwayatPeminjaman() {
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
-      )
-    }
+      ),
+    },
   ];
 
   return (
@@ -109,7 +112,7 @@ export default function RiwayatPeminjaman() {
           </div>
         </div>
 
-        {/* Menu Items */}
+        {/* Menu */}
         <nav className="space-y-1">
           {menuItems.map((item) => (
             <button
@@ -139,9 +142,7 @@ export default function RiwayatPeminjaman() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-gray-800">
-              Riwayat Peminjaman
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-800">Riwayat Peminjaman</h2>
           </div>
           <p className="text-gray-600 ml-13">Lihat semua riwayat peminjaman buku Anda</p>
         </div>
@@ -170,8 +171,8 @@ export default function RiwayatPeminjaman() {
                   <div className="flex-1">
                     <div className="flex items-start gap-4">
                       
-                      {/* Book Icon */}
-                      <div className="w-12 h-12 bg-linear-to-br from-emerald-100 to-green-100 rounded-xl flex items-center justify-center flex-`shrink`-0">
+                      {/* Icon */}
+                      <div className="w-12 h-12 bg-linear-to-br from-emerald-100 to-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
                         <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
